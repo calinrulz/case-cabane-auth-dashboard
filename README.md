@@ -1,7 +1,5 @@
-# Auth with React Router V4 and Firebase V3
-This is an example repo for authenticating with Firebase and React Router.
-
-*Using React 15.4.0, React Router 4, and Firebase 3.6.1*
+# Case & Cabane Auth with React Router V4 and Firebase V3
+Authenticating with Firebase and React Router.
 
 #### Features:
 * Protected Routes with React Router
