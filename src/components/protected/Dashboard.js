@@ -3,12 +3,28 @@ import firebase from 'firebase';
 import FileUploader from 'react-firebase-file-uploader';
 
 export default class Dashboard extends Component {
-  state = {
-    avatar: '',
-    isUploading: false,
-    progress: 0,
-    avatarURL: ''
-  };
+  constructor() {
+    super();
+    this.state = {
+      data: '',
+      avatar: '',
+      isUploading: false,
+      progress: 0,
+      avatarURL: ''
+    };
+  }
+
+  componentDidMount() {
+    const dbRef = firebase.database().ref().child('imageRef');
+    const urlRef = dbRef.child('url');
+
+    urlRef.on('value', (snapshot) => {
+      console.log(snapshot.val());
+      this.setState({
+        data: snapshot.val()
+      });
+    });
+  }
 
   handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
   handleProgress = (progress) => this.setState({ progress });
@@ -18,15 +34,25 @@ export default class Dashboard extends Component {
   }
   handleUploadSuccess = (filename) => {
     this.setState({ avatar: filename, progress: 100, isUploading: false });
-    firebase.storage().ref('images').child(filename).getDownloadURL().then(
-      url => this.setState({ avatarURL: url })
-    );
+    // Firebase Storage
+    firebase.storage().ref('images').child(filename).getDownloadURL()
+      .then((url) => {
+        this.addImageReference(url);
+        this.setState({ avatarURL: url });
+      });
   };
+
+  // Add image path to database
+  addImageReference(itemElement) {
+    firebase.database().ref().child('imageRef').child('url').push(itemElement, (res) => {
+      return this.setState({ data: res });
+    });
+  }
 
   render () {
     return (
       <div className="container">
-        <div className="row">
+        <div className="row text-center">
           <h3>Dashboard. This is a protected route. You can only see this if you're authed.</h3>
         </div>
 
@@ -51,18 +77,31 @@ export default class Dashboard extends Component {
                 accept="image/*"
                 name="avatar"
                 randomizeFilename
-                storageRef={ firebase.storage().ref('images') }
-                onUploadStart={ this.handleUploadStart }
-                onUploadError={ this.handleUploadError }
-                onUploadSuccess={ this.handleUploadSuccess }
-                onProgress={ this.handleProgress }
+                storageRef={firebase.storage().ref('images')}
+                onUploadStart={this.handleUploadStart}
+                onUploadError={this.handleUploadError}
+                onUploadSuccess={this.handleUploadSuccess}
+                onProgress={this.handleProgress}
               />
             </div>
           </div>
 
           <div className="col-md-6 col-md-offset-3">
-            {this.state.avatarURL &&
+            { this.state.avatarURL &&
               <img src={ this.state.avatarURL } alt="" className="uploaded-image" />
+            }
+          </div>
+
+          <div className="col-md-6 col-md-offset-3 all-added-images">
+            {/* TODO: Must resolve issue with "TypeError: Cannot convert undefined or null to object" */}
+            { this.state.data &&
+              Object.keys(this.state.data).map((key, index) => {
+                return (
+                  <div key={index}>
+                    <img src={this.state.data[key]} alt="" className="uploaded-image" />
+                  </div>
+                );
+              })
             }
           </div>
         </div>
