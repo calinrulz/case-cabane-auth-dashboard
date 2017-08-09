@@ -6,24 +6,11 @@ export default class Dashboard extends Component {
   constructor() {
     super();
     this.state = {
-      data: '',
       avatar: '',
       isUploading: false,
       progress: 0,
       avatarURL: ''
     };
-  }
-
-  componentDidMount() {
-    const dbRef = firebase.database().ref().child('imageRef');
-    const urlRef = dbRef.child('url');
-
-    urlRef.on('value', (snapshot) => {
-      console.log(snapshot.val());
-      this.setState({
-        data: snapshot.val()
-      });
-    });
   }
 
   handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
@@ -33,21 +20,13 @@ export default class Dashboard extends Component {
     console.error(error);
   }
   handleUploadSuccess = (filename) => {
-    this.setState({ avatar: filename, progress: 100, isUploading: false });
+    this.setState({ avatar: filename, isUploading: false, progress: 100 });
     // Firebase Storage
     firebase.storage().ref('images').child(filename).getDownloadURL()
       .then((url) => {
-        this.addImageReference(url);
         this.setState({ avatarURL: url });
       });
   };
-
-  // Add image path to database
-  addImageReference(itemElement) {
-    firebase.database().ref().child('imageRef').child('url').push(itemElement, (res) => {
-      return this.setState({ data: res });
-    });
-  }
 
   render () {
     return (
@@ -61,14 +40,15 @@ export default class Dashboard extends Component {
             <div className="progress">
               <div className="progress-bar progress-bar-success progress-bar-striped"
                    role="progressbar"
-                   aria-valuenow={ this.state.progress }
+                   aria-valuenow={this.state.progress}
                    aria-valuemin="0"
                    aria-valuemax="100"
                    style={{ width: `${this.state.progress}%` }}
               >
-                {this.state.isUploading &&
+                {/* {this.state.isUploading &&
                   <span>{ this.state.progress }% Complete</span>
-                }
+                } */}
+                <span>{ this.state.progress }% Complete</span>
               </div>
             </div>
 
@@ -89,19 +69,6 @@ export default class Dashboard extends Component {
           <div className="col-md-6 col-md-offset-3">
             { this.state.avatarURL &&
               <img src={ this.state.avatarURL } alt="" className="uploaded-image" />
-            }
-          </div>
-
-          <div className="col-md-6 col-md-offset-3 all-added-images">
-            {/* TODO: Must resolve issue with "TypeError: Cannot convert undefined or null to object" */}
-            { this.state.data &&
-              Object.keys(this.state.data).map((key, index) => {
-                return (
-                  <div key={index}>
-                    <img src={this.state.data[key]} alt="" className="uploaded-image" />
-                  </div>
-                );
-              })
             }
           </div>
         </div>
