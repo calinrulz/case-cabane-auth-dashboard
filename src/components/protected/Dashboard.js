@@ -6,6 +6,7 @@ export default class Dashboard extends Component {
   constructor() {
     super();
     this.state = {
+      data: '',
       avatar: '',
       isUploading: false,
       progress: 0,
@@ -24,9 +25,17 @@ export default class Dashboard extends Component {
     // Firebase Storage
     firebase.storage().ref('images').child(filename).getDownloadURL()
       .then((url) => {
+        this.addImageReference(url);
         this.setState({ avatarURL: url });
       });
   };
+
+  // Add image path to database
+  addImageReference(itemElement) {
+    firebase.database().ref().child('imageRef').child('url').push(itemElement, (res) => {
+      return this.setState({ data: res });
+    });
+  }
 
   render () {
     return (
