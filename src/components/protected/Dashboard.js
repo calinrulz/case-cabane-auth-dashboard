@@ -54,10 +54,10 @@ export default class Dashboard extends Component {
                    aria-valuemax="100"
                    style={{ width: `${this.state.progress}%` }}
               >
-                {/* {this.state.isUploading &&
+                {
+                  (this.state.isUploading || (!this.state.isUploading && (this.state.progress === 100))) &&
                   <span>{ this.state.progress }% Complete</span>
-                } */}
-                <span>{ this.state.progress }% Complete</span>
+                }
               </div>
             </div>
 
