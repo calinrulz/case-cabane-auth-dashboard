@@ -61,7 +61,7 @@ export default class App extends Component {
               <div className="navbar-header">
                 <Link to="/" className="navbar-brand">
                   <img src="/images/logo.png" alt="" className="logo-image" />
-                  <h4 className="logo-text">Dashboard</h4>
+                  <h3 className="logo-text">Dashboard</h3>
                 </Link>
               </div>
               <ul className="nav navbar-nav pull-right">

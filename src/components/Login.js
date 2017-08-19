@@ -23,7 +23,7 @@ export default class Login extends Component {
   }
   render () {
     return (
-      <div className="col-sm-6 col-sm-offset-3">
+      <div className="notification-bar login-container">
         <h1> Login </h1>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
@@ -42,7 +42,7 @@ export default class Login extends Component {
               &nbsp;{this.state.loginMessage} <a href="#" onClick={this.resetPassword} className="alert-link">Forgot Password?</a>
             </div>
           }
-          <button type="submit" className="btn btn-primary">Login</button>
+          <button type="submit" className="btn btn-success">Login</button>
         </form>
       </div>
     )

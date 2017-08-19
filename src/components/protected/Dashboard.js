@@ -40,12 +40,10 @@ export default class Dashboard extends Component {
   render () {
     return (
       <div className="container">
-        <div className="row text-center">
-          <h3>Dashboard. This is a protected route. You can only see this if you're authed.</h3>
-        </div>
-
         <div className="row">
-          <div className="col-md-6 col-md-offset-3 upload-container">
+          <div className="text-center notification-bar upload-container">
+            <h3>Dashboard. This is a protected route. You can only see this if you're authed.</h3>
+
             <div className="progress">
               <div className="progress-bar progress-bar-success progress-bar-striped"
                    role="progressbar"
