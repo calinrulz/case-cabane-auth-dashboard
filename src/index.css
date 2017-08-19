@@ -3,9 +3,66 @@
  body {
   margin: 0;
   padding: 0;
-  font-family: "Roboto" sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
+.dashboard-container {
+  width: 100vw;
+  height: 100vh;
+  background: url('/images/house-bg.jpg') no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.dashboard-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  opacity: 0.3;
+}
+
+/* Header */
+.logo-image {
+  width: 50px;
+  height: auto;
+  float: left;
+}
+
+.logo-text {
+  margin-left: 65px;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 2;
+  text-transform: uppercase;
+  color: #f7901e;
+}
+
+.navbar {
+  min-height: 100px;
+}
+
+.navbar-brand {
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.navbar-brand,
+.navbar-nav > li > a {
+  line-height: 65px;
+  height: 100px;
+}
+
+button.navbar-brand {
+  padding: 0 15px;
+}
+
+/* Content */
 .upload-container {
   display: flex;
   align-items: center;

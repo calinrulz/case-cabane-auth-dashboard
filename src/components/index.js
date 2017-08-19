@@ -55,11 +55,14 @@ export default class App extends Component {
   render() {
     return this.state.loading === true ? <h1>Loading</h1> : (
       <BrowserRouter>
-        <div>
+        <div className="dashboard-container">
           <nav className="navbar navbar-default navbar-static-top">
             <div className="container">
               <div className="navbar-header">
-                <Link to="/" className="navbar-brand">Case & Cabane Dashboard</Link>
+                <Link to="/" className="navbar-brand">
+                  <img src="/images/logo.png" alt="" className="logo-image" />
+                  <h4 className="logo-text">Dashboard</h4>
+                </Link>
               </div>
               <ul className="nav navbar-nav pull-right">
                 <li>
@@ -71,7 +74,7 @@ export default class App extends Component {
                 <li>
                   {this.state.authed
                     ? <button
-                        style={{border: 'none', background: 'transparent'}}
+                        style={{border: 'none', background: 'transparent', paddingBottom: '6px'}}
                         onClick={() => {
                           logout()
                         }}
